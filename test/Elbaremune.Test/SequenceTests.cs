@@ -10,6 +10,31 @@ namespace Elbaremune.Test {
 
     public class SequenceTests {
 
+        public class GivenANumber {
+
+            private readonly int number;
+
+            public GivenANumber() {
+                this.number = 5;
+            }
+
+            [Fact]
+            public void WhenUnfoldedByOneToZero() {
+                Func<int, (int, int)?> generator = (it) => {
+                    if (it == 0) {
+                        return null;
+                    }
+                    return (it, it - 1);
+                };
+
+                var result = Sequence.Unfold(this.number, generator);
+
+                var expected = new List<int>() { 5, 4, 3, 2, 1 };
+
+                Assert.True(result.SequenceEqual(expected));
+            }
+        }
+
         public class GivenAFactorialResult {
 
             private readonly int factorialResult;
@@ -18,24 +43,9 @@ namespace Elbaremune.Test {
                 this.factorialResult = 120; // 5!
             }
 
-            [Fact]
-            public void When() {
-                Func<int, (int, int)?> generator = (it) => {
-                    if (it == 0) {
-                        return null;
-                    }
-                    return (it - 1, it - 1);
-                };
-
-                var result = Sequence.Unfold(10, generator);
-
-                var expected = new List<int>() { 5, 4, 3, 2, 1 };
-
-                Assert.True(result.SequenceEqual(expected));
-            }
 
             [Fact]
-            public void WhenUnfoldingit() {
+            public void WhenUnfoldingTheFactorial() {
                 Func<(int, int), (int, (int, int))?> generator = (it) => {
                     var (n, currentState) = it;
                     if (n == 0) {
