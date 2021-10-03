@@ -33,6 +33,12 @@ namespace Elbaremune.Test {
 
                 Assert.True(result.SequenceEqual(expected));
             }
+
+            [Fact]
+            public void WhenNumbersAreGeneratedFromTheNumberToZero() {
+
+                var result = Sequence.Generate(this.number, (x) => x < 0 ? null : x - 1);
+            }
         }
 
         public class GivenAFactorialResult {

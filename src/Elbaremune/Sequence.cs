@@ -8,8 +8,20 @@ namespace Elbaremune {
 
     public static class Sequence {
         
-        public static IEnumerable<TItem> Generate<TItem>(TItem seed, Func<TItem, TItem?> nextFn) {
-            var currentItem = seed;
+        // TODO - can we consolidate this to 1 yet?
+        // TODO - test runtime perf of using is vs explicit null check
+        public static IEnumerable<TItem> Generate<TItem>(TItem seed, Func<TItem, TItem?> nextFn)
+            where TItem : class {
+            TItem currentItem = seed;
+            while (nextFn(currentItem) is TItem nextState) {
+                yield return nextState;
+                currentItem = nextState;
+            }
+        }
+
+        public static IEnumerable<TItem> Generate<TItem>(TItem seed, Func<TItem, TItem?> nextFn)
+            where TItem : struct {
+            TItem currentItem = seed;
             while (nextFn(currentItem) is TItem nextState) {
                 yield return nextState;
                 currentItem = nextState;
