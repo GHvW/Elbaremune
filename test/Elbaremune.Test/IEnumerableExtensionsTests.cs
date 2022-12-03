@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentAssertions;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,6 +36,26 @@ namespace Elbaremune.Test {
                 var expected = new List<int>() { 6, 11, 14 };
 
                 Assert.True(result.SequenceEqual(expected));
+            }
+        }
+
+        public class GivenAChunkSize {
+
+            [Fact]
+            public void WhenChunkedAndSizeCountIsEvenlyDivisibleBySize() {
+                var data = new int[] { 1, 2, 3, 4, 5, 6 };
+                var chunkSize = 3;
+
+                var result = data.ChunkBySize(chunkSize).ToList();
+
+                result.Count.Should().Be(2);
+
+                result[0][0].Should().Be(1);
+                result[0][1].Should().Be(2);
+                result[0][2].Should().Be(3);
+                result[1][0].Should().Be(4);
+                result[1][1].Should().Be(5);
+                result[1][2].Should().Be(6);
             }
         }
     }
