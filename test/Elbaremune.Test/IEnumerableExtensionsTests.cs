@@ -57,6 +57,34 @@ namespace Elbaremune.Test {
                 result[1][1].Should().Be(5);
                 result[1][2].Should().Be(6);
             }
+
+            [Fact]
+            public void WhenChunkedAndSizeCountIsNotEvenlyDivisibleBySize() {
+                var data = new int[] { 1, 2, 3, 4, 5 };
+                var chunkSize = 3;
+
+                var result = data.ChunkBySize(chunkSize).ToList();
+
+                result.Count.Should().Be(2);
+
+                result[1].Length.Should().Be(2);
+
+                result[0][0].Should().Be(1);
+
+                result[1][0].Should().Be(4);
+            }
+
+            [Fact]
+            public void WhenChunknedAndSequenceOnlyHasOneElement() {
+                var data = new int[] { 1 };
+                var chunkSize = 3;
+
+                var result = data.ChunkBySize(chunkSize).ToList();
+
+                result.Count.Should().Be(1);
+
+                result[0].Length.Should().Be(1);
+            }
         }
     }
 }
