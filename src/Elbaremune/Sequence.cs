@@ -30,8 +30,8 @@ namespace Elbaremune {
 
         
         // UnAggregate?
-        public static IEnumerable<TItem> Unfold<TState, TItem>(this TState state, Func<TState, (TItem, TState)?> gen) {
-            var currentState = state;
+        public static IEnumerable<TItem> Unfold<TState, TItem>(this TState seed, Func<TState, (TItem, TState)?> gen) {
+            var currentState = seed;
             while (gen(currentState) is (TItem, TState) nextResult) {
                 var (item, nextState) = nextResult;
                 yield return item;
